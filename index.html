@@ -120,6 +120,8 @@
       cardElement.classList.add('banned-card');
     } else if (char.status === 'warning') {
       cardElement.classList.add('warning-card');
+    } else if (char.status === 'safe') {
+      cardElement.classList.add('safe-card');
     }
 
     cardElement.querySelector('.name').innerHTML = `<span style="color:${color}; font-weight: 700;">${char.realm.charAt(0).toUpperCase() + char.realm.slice(1)} - ${data.name}</span>`;

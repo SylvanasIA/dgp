@@ -117,7 +117,7 @@
     cardElement.querySelector('.name').innerHTML = `<span style="color:${color}; font-weight: 700;">${char.realm.charAt(0).toUpperCase() + char.realm.slice(1)} - ${data.name}</span>`;
     cardElement.querySelector('.meta').innerHTML = `${data.race} <span style="color:${color}; font-weight: 600;">${data.class}</span> - <span style="color:${color}; font-weight: 600;">${data.active_spec_name || 'Spec desconocido'}</span>`;
     cardElement.querySelector('.guild').textContent = data.guild?.name || 'Sin guild';
-    cardElement.querySelector('.updated').textContent = `Última conexión: ${formatDate(data.gear?.updated_at)}`;
+    cardElement.querySelector('.updated').textContent = `Última conexión: ${formatDate(data.last_crawled_at)}`;
     cardElement.querySelector('.image-container').innerHTML = `<img src="${data.thumbnail_url}" alt="${data.name}" class="w-full h-full object-cover" />`;
     cardElement.querySelector('.gear').innerHTML = `<strong class="text-white">Equipo</strong><br>iLvl Equipado: ${data.gear?.item_level_equipped}`;
 

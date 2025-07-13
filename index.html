@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -39,12 +38,12 @@
       border-color: red !important;
     }
     @keyframes greenBlink {
-      0%, 100% { box-shadow: 0 0 15px 3px red; }
+      0%, 100% { box-shadow: 0 0 15px 3px green; }
       50% { box-shadow: 0 0 0 0 transparent; }
     }
     .safe-card {
       animation: greenBlink 1.5s infinite;
-      border-color: red !important;
+      border-color: green !important;
     }
   </style>
 </head>
@@ -89,7 +88,7 @@
         <div class="flex-1">
           <h2 class="text-2xl font-bold name">Nombre</h2>
           <p class="text-base meta text-gray-300">...</p>
-          <p class="text-base text-indigo-400 guild">...</p>
+          <p class="text-md text-yellow-400 font-bold guild">...</p>
         </div>
       </div>
       <div class="text-sm leading-snug overflow-y-auto pr-1 flex flex-col gap-2 h-[260px]">
@@ -104,7 +103,10 @@
   }
 
   function getClassColor(className) {
-    return classColors[className.toLowerCase()] || '#FFFFFF';
+    if (!className) return '#FFFFFF';
+  // Eliminar espacios y poner todo en minúsculas
+  const key = className.toLowerCase().replace(/\s/g, '');
+  return classColors[key] || '#FFFFFF';
   }
 
   async function fillCardWithData(char, data, cardElement, score) {
@@ -126,7 +128,7 @@
 
     cardElement.querySelector('.name').innerHTML = `<span style="color:${color}; font-weight: 700;">${char.realm.charAt(0).toUpperCase() + char.realm.slice(1)} - ${data.name}</span>`;
     cardElement.querySelector('.meta').innerHTML = `${data.race} <span style="color:${color}; font-weight: 600;">${data.class}</span> - <span style="color:${color}; font-weight: 600;">${data.active_spec_name || 'Spec desconocido'}</span>`;
-    cardElement.querySelector('.guild').textContent = data.guild?.name || 'Sin guild';
+    cardElement.querySelector('.guild').innerHTML = `<span class="text-sm leading-snug font-bold" style="color:#FFFFFF">Puntos de Logros</span> ${data.achievement_points}`;
     cardElement.querySelector('.updated').textContent = `Última conexión: ${formatDate(data.last_crawled_at)}`;
     cardElement.querySelector('.image-container').innerHTML = `<img src="${data.thumbnail_url}" alt="${data.name}" class="w-full h-full object-cover" />`;
     cardElement.querySelector('.gear').innerHTML = `<strong class="text-white">Equipo</strong><br>iLvl Equipado: ${data.gear?.item_level_equipped}`;

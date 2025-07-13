@@ -38,6 +38,14 @@
       animation: redBlink 1.5s infinite;
       border-color: red !important;
     }
+    @keyframes greenBlink {
+      0%, 100% { box-shadow: 0 0 15px 3px red; }
+      50% { box-shadow: 0 0 0 0 transparent; }
+    }
+    .safe-card {
+      animation: greenBlink 1.5s infinite;
+      border-color: red !important;
+    }
   </style>
 </head>
 <body class="bg-gray-900 text-white flex flex-wrap justify-center gap-6 p-6 min-h-screen">
@@ -53,13 +61,13 @@
 
   const characters = [
     { region: 'us', realm: 'illidan', name: 'hoolyshift', status: 'warning' },
-    { region: 'us', realm: 'illidan', name: 'freskotwo', status: '' },
-    { region: 'us', realm: 'area-52', name: 'shamiir', status: '' },
+    { region: 'us', realm: 'illidan', name: 'freskotwo', status: 'warning' },
+    { region: 'us', realm: 'area-52', name: 'shamiir', status: 'safe' },
     { region: 'us', realm: 'area-52', name: 'yamadæ', status: 'warning' },
     { region: 'us', realm: 'stormrage', name: 'honguitox', status: 'banned' },
-    { region: 'us', realm: 'area-52', name: 'annykat', status: '' },
-    { region: 'us', realm: 'area-52', name: 'ablhs', status: '' },
-    { region: 'us', realm: 'area-52', name: 'eludemon', status: '' },
+    { region: 'us', realm: 'area-52', name: 'annykat', status: 'warning' },
+    { region: 'us', realm: 'area-52', name: 'ablhs', status: 'safe' },
+    { region: 'us', realm: 'area-52', name: 'eludemon', status: 'safe' },
     { region: 'us', realm: 'stormrage', name: 'shamiétt', status: 'banned' }
   ];
 

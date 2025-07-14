@@ -8,7 +8,7 @@
   <style>
     body {
       position: relative;
-      background-image: url('https://blz-contentstack-images.akamaized.net/v3/assets/blt3452e3b114fab0cd/bltd0507e57be514a8f/65442bb502f5a23c7444f64c/IsleOfDorn.webp');
+      background-image: url('https://bnetcmsus-a.akamaihd.net/cms/content_entry_media/NK7XAPMQLHOU1738635463975.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -64,165 +64,202 @@
       animation: greenBlink 1.5s infinite;
       border-color: green !important;
     }
+
+    .link-icons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .link-icons a img {
+      width: 28px;
+      height: 28px;
+      transition: transform 0.2s ease;
+    }
+
+    .link-icons a:hover img {
+      transform: scale(1.15);
+    }
   </style>
 </head>
 <body class="text-white flex flex-wrap justify-center gap-6 p-6 min-h-screen">
+  <h1 class="w-full text-center text-4xl font-bold text-yellow-300 mb-6 drop-shadow-lg">
+    ¿Quién llegará al Housing DGP 2026?
+  </h1>
 
-<div id="cards-container" class="flex flex-wrap justify-center gap-6 max-w-7xl"></div>
+  <div id="cards-container" class="flex flex-wrap justify-center gap-6 max-w-7xl"></div>
 
-<script>
-  const classColors = {
-    warrior: '#C79C6E', paladin: '#F58CBA', hunter: '#ABD473', rogue: '#FFF569',
-    priest: '#FFFFFF', deathknight: '#C41F3B', shaman: '#0070DE', mage: '#69CCF0',
-    warlock: '#9482C9', monk: '#00FF96', druid: '#FF7D0A', demonhunter: '#A330C9', evoker: '#33937F'
-  };
+  <script>
+    const classColors = {
+      warrior: '#C79C6E', paladin: '#F58CBA', hunter: '#ABD473', rogue: '#FFF569',
+      priest: '#FFFFFF', deathknight: '#C41F3B', shaman: '#0070DE', mage: '#69CCF0',
+      warlock: '#9482C9', monk: '#00FF96', druid: '#FF7D0A', demonhunter: '#A330C9', evoker: '#33937F'
+    };
 
-  const characters = [
-    { region: 'us', realm: 'illidan', name: 'hoolyshift', status: 'warning' },
-    { region: 'us', realm: 'illidan', name: 'freskotwo', status: 'warning' },
-    { region: 'us', realm: 'area-52', name: 'shamiir', status: 'safe' },
-    { region: 'us', realm: 'area-52', name: 'yamadæ', status: 'warning' },
-    { region: 'us', realm: 'stormrage', name: 'honguitox', status: 'banned' },
-    { region: 'us', realm: 'area-52', name: 'annykat', status: 'warning' },
-    { region: 'us', realm: 'area-52', name: 'ablhs', status: 'safe' },
-    { region: 'us', realm: 'area-52', name: 'eludemon', status: 'safe' },
-    { region: 'us', realm: 'stormrage', name: 'shamiétt', status: 'banned' },
-    { region: 'us', realm: 'illidan', name: 'dárkdrachen', status: 'warning' },
-    { region: 'us', realm: 'area-52', name: 'bgz', status: 'warning' },  
-    { region: 'us', realm: 'stormrage', name: 'aetherìon', status: 'safe' },
-    { region: 'us', realm: 'area-52', name: 'aviladin', status: 'warning' },
-    { region: 'us', realm: 'ragnaros', name: 'soohä', status: 'safe' },
-    { region: 'us', realm: 'thrall', name: 'xspeed', status: 'warning' },
-    { region: 'us', realm: 'area-52', name: 'gutsdk', status: 'warning' },
-    { region: 'us', realm: 'stormrage', name: 'dreckarius', status: 'safe' },
-    { region: 'us', realm: 'tichondrius', name: 'cevichito', status: 'warning' },
-    { region: 'us', realm: 'area-52', name: 'elmatadorxd', status: 'warning' },
-    { region: 'us', realm: 'ragnaros', name: 'azooky', status: 'safe' },
-    { region: 'us', realm: 'ragnaros', name: 'haetae', status: 'safe' },
-    { region: 'us', realm: 'dalaran', name: 'Inferis', status: 'safe' },
-    { region: 'us', realm: 'quelthalas', name: 'pococho', status: 'safe' }
-  ];
+    const characters = [
+      { region: 'us', realm: 'illidan', name: 'hoolyshift', status: 'warning' },
+      { region: 'us', realm: 'illidan', name: 'freskotwo', status: 'warning' },
+      { region: 'us', realm: 'area-52', name: 'shamiir', status: 'safe' },
+      { region: 'us', realm: 'area-52', name: 'yamadæ', status: 'warning' },
+      { region: 'us', realm: 'stormrage', name: 'honguitox', status: 'banned' },
+      { region: 'us', realm: 'area-52', name: 'annykat', status: 'warning' },
+      { region: 'us', realm: 'area-52', name: 'ablhs', status: 'safe' },
+      { region: 'us', realm: 'area-52', name: 'eludemon', status: 'safe' },
+      { region: 'us', realm: 'stormrage', name: 'shamiétt', status: 'banned' },
+      { region: 'us', realm: 'illidan', name: 'dárkdrachen', status: 'warning' },
+      { region: 'us', realm: 'area-52', name: 'bgz', status: 'warning' },  
+      { region: 'us', realm: 'stormrage', name: 'aetherìon', status: 'safe' },
+      { region: 'us', realm: 'area-52', name: 'aviladin', status: 'warning' },
+      { region: 'us', realm: 'ragnaros', name: 'soohä', status: 'safe' },
+      { region: 'us', realm: 'thrall', name: 'xspeed', status: 'warning' },
+      { region: 'us', realm: 'area-52', name: 'gutsdk', status: 'warning' },
+      { region: 'us', realm: 'stormrage', name: 'dreckarius', status: 'safe' },
+      { region: 'us', realm: 'tichondrius', name: 'cevichito', status: 'warning' },
+      { region: 'us', realm: 'area-52', name: 'elmatadorxd', status: 'warning' },
+      { region: 'us', realm: 'ragnaros', name: 'azooky', status: 'safe' },
+      { region: 'us', realm: 'ragnaros', name: 'haetae', status: 'safe' },
+      { region: 'us', realm: 'dalaran', name: 'Inferis', status: 'safe' },
+      { region: 'us', realm: 'quelthalas', name: 'pococho', status: 'safe' }
+    ];
 
-  const accessKey = '';
+    const accessKey = '';
 
-  function formatDate(isoString) {
-    if (!isoString) return 'N/A';
-    const date = new Date(isoString);
-    return date.toLocaleString();
-  }
+    function formatDate(isoString) {
+      if (!isoString) return 'N/A';
+      const date = new Date(isoString);
+      return date.toLocaleString();
+    }
 
-  function createCardElement() {
-    const card = document.createElement('div');
-    card.className = 'relative w-[380px] bg-gray-800 rounded-2xl shadow-2xl p-4 overflow-hidden border-2 border-transparent';
-    card.innerHTML = `
-      <div class="banner-container"></div>
-      <div class="flex items-start mb-2">
-        <div class="w-16 h-16 rounded-lg border-2 border-white overflow-hidden mr-3 image-container"></div>
-        <div class="flex-1">
-          <h2 class="text-2xl font-bold name">Nombre</h2>
-          <p class="text-base meta text-gray-300">...</p>
-          <p class="text-md text-yellow-400 font-bold guild">...</p>
+    function createCardElement() {
+      const card = document.createElement('div');
+      card.className = 'relative w-[380px] bg-gray-800 rounded-2xl shadow-2xl p-4 overflow-hidden border-2 border-transparent';
+      card.innerHTML = `
+        <div class="banner-container"></div>
+        <div class="flex items-start mb-2">
+          <div class="w-16 h-16 rounded-lg border-2 border-white overflow-hidden mr-3 image-container"></div>
+          <div class="flex-1">
+            <h2 class="text-2xl font-bold name">Nombre</h2>
+            <p class="text-base meta text-gray-300">...</p>
+            <p class="text-md text-yellow-400 font-bold guild">...</p>
+          </div>
         </div>
-      </div>
-      <div class="text-sm leading-snug overflow-y-auto pr-1 flex flex-col gap-2 h-[260px]">
-        <div class="gear"></div>
-        <div class="mythic"></div>
-        <div class="recent"></div>
-        <div class="raids"></div>
-      </div>
-      <div class="text-gray-400 text-sm text-center mt-1 updated">Última conexión: ...</div>
-    `;
-    return card;
-  }
-
-  function getClassColor(className) {
-    if (!className) return '#FFFFFF';
-    const key = className.toLowerCase().replace(/\s/g, '');
-    return classColors[key] || '#FFFFFF';
-  }
-
-  async function fillCardWithData(char, data, cardElement, score) {
-    const classKey = data.class?.toLowerCase() || 'priest';
-    const color = getClassColor(classKey);
-
-    const bannerContainer = cardElement.querySelector('.banner-container');
-    if (char.status === 'banned') {
-      const banner = document.createElement('div');
-      banner.className = 'diagonal-banner';
-      banner.textContent = 'BANNED';
-      bannerContainer.appendChild(banner);
-      cardElement.classList.add('banned-card');
-    } else if (char.status === 'warning') {
-      cardElement.classList.add('warning-card');
-    } else if (char.status === 'safe') {
-      cardElement.classList.add('safe-card');
+        <div class="text-sm leading-snug overflow-y-auto pr-1 flex flex-col gap-2 h-[260px]">
+          <div class="gear"></div>
+          <div class="mythic"></div>
+          <div class="recent"></div>
+          <div class="raids"></div>
+        </div>
+        <div class="text-gray-400 text-sm text-center mt-1 updated">Última conexión: ...</div>
+        <div class="links link-icons"></div>
+      `;
+      return card;
     }
 
-    cardElement.querySelector('.name').innerHTML = `<span style="color:${color}; font-weight: 700;">${char.realm.charAt(0).toUpperCase() + char.realm.slice(1)} - ${data.name}</span>`;
-    cardElement.querySelector('.meta').innerHTML = `${data.race} <span style="color:${color}; font-weight: 600;">${data.class}</span> - <span style="color:${color}; font-weight: 600;">${data.active_spec_name || 'Spec desconocido'}</span>`;
-    cardElement.querySelector('.guild').innerHTML = `<span class="text-sm leading-snug font-bold" style="color:#FFFFFF">Puntos de Logros</span> ${data.achievement_points}`;
-    cardElement.querySelector('.updated').textContent = `Última conexión: ${formatDate(data.last_crawled_at)}`;
-    cardElement.querySelector('.image-container').innerHTML = `<img src="${data.thumbnail_url}" alt="${data.name}" class="w-full h-full object-cover" />`;
-    cardElement.querySelector('.gear').innerHTML = `<strong class="text-white">Equipo</strong><br>iLvl Equipado: ${data.gear?.item_level_equipped}`;
+    function getClassColor(className) {
+      if (!className) return '#FFFFFF';
+      const key = className.toLowerCase().replace(/\s/g, '');
+      return classColors[key] || '#FFFFFF';
+    }
 
-    const bestRun = data.mythic_plus_best_runs?.[0];
-    cardElement.querySelector('.mythic').innerHTML = `
-      <strong class="text-white">Mythic+</strong><br>
-      Score: ${score.toFixed(1)}<br>
-      Mejor Run: ${bestRun ? bestRun.dungeon + ' +' + bestRun.mythic_level : 'N/A'}
-    `;
+    async function fillCardWithData(char, data, cardElement, score) {
+      const classKey = data.class?.toLowerCase() || 'priest';
+      const color = getClassColor(classKey);
 
-    const recentRuns = data.mythic_plus_recent_runs?.slice(0, 2).map(run =>
-      `<li>${run.dungeon} +${run.mythic_level} (${run.num_keystone_upgrades} upg)</li>`
-    ).join('') || '<li>No hay</li>';
-    cardElement.querySelector('.recent').innerHTML = `
-      <strong class="text-white">Últimas M+:</strong>
-      <ul class="list-disc list-inside text-gray-300">${recentRuns}</ul>
-    `;
-
-    const raidsPermitidas = ['liberation-of-undermine', 'nerubar-palace'];
-    const raidsFiltradas = raidsPermitidas.map(raid => {
-      const info = data.raid_progression?.[raid];
-      return info ? `<div><strong>${raid.replace(/-/g, ' ')}</strong>: ${info.summary}</div>` : null;
-    }).filter(Boolean).join('');
-    cardElement.querySelector('.raids').innerHTML = `
-      <strong class="text-white">Raids:</strong>
-      <div class="text-gray-300 mt-1 text-xs space-y-1">${raidsFiltradas}</div>
-    `;
-  }
-
-  async function init() {
-    const container = document.getElementById('cards-container');
-    const loadedCharacters = [];
-
-    await Promise.all(characters.map(async (char) => {
-      const url = `https://raider.io/api/v1/characters/profile?access_key=${accessKey}&region=${char.region}&realm=${char.realm}&name=${encodeURIComponent(char.name)}&fields=gear,mythic_plus_scores_by_season:current,talents,guild,mythic_plus_recent_runs,mythic_plus_best_runs,raid_progression`;
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error('Error cargando datos');
-        const data = await res.json();
-        const score = data.mythic_plus_scores_by_season?.[0]?.scores?.all || 0;
-        loadedCharacters.push({ char, data, score });
-      } catch (e) {
-        loadedCharacters.push({ char, error: true, errorMsg: e.message, score: 0 });
+      const bannerContainer = cardElement.querySelector('.banner-container');
+      if (char.status === 'banned') {
+        const banner = document.createElement('div');
+        banner.className = 'diagonal-banner';
+        banner.textContent = 'BANNED';
+        bannerContainer.appendChild(banner);
+        cardElement.classList.add('banned-card');
+      } else if (char.status === 'warning') {
+        cardElement.classList.add('warning-card');
+      } else if (char.status === 'safe') {
+        cardElement.classList.add('safe-card');
       }
-    }));
 
-    loadedCharacters.sort((a, b) => b.score - a.score);
+      cardElement.querySelector('.name').innerHTML = `<span style="color:${color}; font-weight: 700;">${char.realm.charAt(0).toUpperCase() + char.realm.slice(1)} - ${data.name}</span>`;
+      cardElement.querySelector('.meta').innerHTML = `${data.race} <span style="color:${color}; font-weight: 600;">${data.class}</span> - <span style="color:${color}; font-weight: 600;">${data.active_spec_name || 'Spec desconocido'}</span>`;
+      cardElement.querySelector('.guild').innerHTML = `<span class="text-sm leading-snug font-bold" style="color:#FFFFFF">Puntos de Logros</span> ${data.achievement_points}`;
+      cardElement.querySelector('.updated').textContent = `Última conexión: ${formatDate(data.last_crawled_at)}`;
+      cardElement.querySelector('.image-container').innerHTML = `<img src="${data.thumbnail_url}" alt="${data.name}" class="w-full h-full object-cover" />`;
+      cardElement.querySelector('.gear').innerHTML = `<strong class="text-white">Equipo</strong><br>iLvl Equipado: ${data.gear?.item_level_equipped}`;
 
-    for (const entry of loadedCharacters) {
-      const card = createCardElement();
-      container.appendChild(card);
-      if (entry.error) {
-        card.querySelector('.name').textContent = 'Error al cargar datos';
-        card.querySelector('.meta').textContent = entry.errorMsg;
-      } else {
-        await fillCardWithData(entry.char, entry.data, card, entry.score);
+      const bestRun = data.mythic_plus_best_runs?.[0];
+      cardElement.querySelector('.mythic').innerHTML = `
+        <strong class="text-white">Mythic+</strong><br>
+        Score: ${score.toFixed(1)}<br>
+        Mejor Run: ${bestRun ? bestRun.dungeon + ' +' + bestRun.mythic_level : 'N/A'}
+      `;
+
+      const recentRuns = data.mythic_plus_recent_runs?.slice(0, 2).map(run =>
+        `<li>${run.dungeon} +${run.mythic_level} (${run.num_keystone_upgrades} upg)</li>`
+      ).join('') || '<li>No hay</li>';
+      cardElement.querySelector('.recent').innerHTML = `
+        <strong class="text-white">Últimas M+:</strong>
+        <ul class="list-disc list-inside text-gray-300">${recentRuns}</ul>
+      `;
+
+      const raidsPermitidas = ['liberation-of-undermine', 'nerubar-palace'];
+      const raidsFiltradas = raidsPermitidas.map(raid => {
+        const info = data.raid_progression?.[raid];
+        return info ? `<div><strong>${raid.replace(/-/g, ' ')}</strong>: ${info.summary}</div>` : null;
+      }).filter(Boolean).join('');
+      cardElement.querySelector('.raids').innerHTML = `
+        <strong class="text-white">Raids:</strong>
+        <div class="text-gray-300 mt-1 text-xs space-y-1">${raidsFiltradas}</div>
+      `;
+
+      const encodedRealm = encodeURIComponent(char.realm);
+      const encodedName = encodeURIComponent(data.name);
+      const linksContainer = cardElement.querySelector('.links');
+
+      linksContainer.innerHTML = `
+        <a href="https://worldofwarcraft.blizzard.com/en-us/character/${char.region}/${encodedRealm}/${encodedName}" target="_blank" title="WoW Armory">
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/world-of-warcraft.png" alt="WoW Armory" />
+        </a>
+        <a href="https://raider.io/characters/${char.region}/${encodedRealm}/${encodedName}" target="_blank" title="Raider.IO">
+          <img src="https://avatars.githubusercontent.com/u/26493840?s=200&v=4" alt="Raider.IO" />
+        </a>
+        <a href="https://www.warcraftlogs.com/character/${char.region}/${encodedRealm}/${encodedName}" target="_blank" title="Warcraft Logs">
+          <img src="https://assets.rpglogs.com/cms/WCL_Icon_57fc009f4e.png" alt="Warcraft Logs" />
+        </a>
+      `;
+    }
+
+    async function init() {
+      const container = document.getElementById('cards-container');
+      const loadedCharacters = [];
+
+      await Promise.all(characters.map(async (char) => {
+        const url = `https://raider.io/api/v1/characters/profile?access_key=${accessKey}&region=${char.region}&realm=${char.realm}&name=${encodeURIComponent(char.name)}&fields=gear,mythic_plus_scores_by_season:current,talents,guild,mythic_plus_recent_runs,mythic_plus_best_runs,raid_progression`;
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error('Error cargando datos');
+          const data = await res.json();
+          const score = data.mythic_plus_scores_by_season?.[0]?.scores?.all || 0;
+          loadedCharacters.push({ char, data, score });
+        } catch (e) {
+          loadedCharacters.push({ char, error: true, errorMsg: e.message, score: 0 });
+        }
+      }));
+
+      loadedCharacters.sort((a, b) => b.score - a.score);
+
+      for (const entry of loadedCharacters) {
+        const card = createCardElement();
+        container.appendChild(card);
+        if (entry.error) {
+          card.querySelector('.name').textContent = 'Error al cargar datos';
+          card.querySelector('.meta').textContent = entry.errorMsg;
+        } else {
+          await fillCardWithData(entry.char, entry.data, card, entry.score);
+        }
       }
     }
-  }
 
-  init();
-</script>
+    init();
+  </script>
 </body>
 </html>

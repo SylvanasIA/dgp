@@ -1,5 +1,4 @@
-const API_ENDPOINT = 'https://wowtoken.app/api/latest?region=us';
-const FALLBACK_ENDPOINT = 'https://data.wowtoken.app/v2/current/retail.json';
+const API_ENDPOINT = 'https://data.wowtoken.app/v2/current/retail.json';
 
 const elements = {
     tokenGoldPrice: document.getElementById('token-gold-price'),
@@ -23,24 +22,18 @@ async function fetchTokenPrice() {
         elements.statusBadge.textContent = 'Actualizando...';
         elements.statusBadge.className = 'status-badge';
         
-        let response = await fetch(API_ENDPOINT);
-        let data;
+        const response = await fetch(API_ENDPOINT);
+        if (!response.ok) throw new Error('API Response Error');
         
-        if (response.ok) {
-            data = await response.json();
+        const data = await response.json();
+        
+        // El formato es ["timestamp", precio]
+        if (data.us && Array.isArray(data.us)) {
+            currentTokenGold = data.us[1];
         } else {
-            console.warn('Primary API failed, trying fallback...');
-            response = await fetch(FALLBACK_ENDPOINT);
-            const fallbackData = await response.json();
-            // Fallback structure check
-            data = {
-                us: {
-                    current: fallbackData.us.current
-                }
-            };
+            throw new Error('Formato de datos inválido');
         }
 
-        currentTokenGold = data.us.current;
         updateUI();
         
         elements.statusBadge.textContent = 'En Vivo';
@@ -59,7 +52,7 @@ async function fetchTokenPrice() {
         elements.statusBadge.style.color = '#ff4444';
         
         // Use default values for calculations even if API fails
-        currentTokenGold = 386000; // Realistic default
+        currentTokenGold = 241000; // Updated to match user's screenshot price
         updateUI();
     }
 }
@@ -69,7 +62,6 @@ function updateUI() {
     const tokenCount = parseFloat(elements.tokenCountInput.value) || 0;
 
     // 100k gold = goldRate (Soles)
-    // 1 gold = goldRate / 100000
     const tokenSoles = (currentTokenGold * goldRate) / 100000;
     const totalCost = tokenSoles * tokenCount;
     
@@ -77,26 +69,14 @@ function updateUI() {
     elements.tokenGoldPrice.textContent = `${(currentTokenGold / 1000).toLocaleString()} K`;
     elements.tokenSolesPrice.textContent = `${tokenSoles.toFixed(1)} S/`;
     
-    elements.blizzardOfficial.textContent = '91'; // Based on Excel
-    elements.wowTokenGold.textContent = `${(currentTokenGold / 10000).toFixed(1)}`; // Based on Excel formatting (38.6 style)
+    elements.blizzardOfficial.textContent = '91';
+    elements.wowTokenGold.textContent = `${(currentTokenGold / 10000).toFixed(1)}`;
     elements.totalCostSoles.textContent = `${totalCost.toFixed(1)} S/`;
     
-    // Balance remaining (Hardcoded 89 based on Excel "Restante Saldo" screenshot)
     elements.balanceRemaining.textContent = '89';
 
     // Multipliers
-    elements.mult115.textContent = `${(goldRate * 1.15 * 4.02).toFixed(0)}`; // 4.02 approx to match 74 in excel if rate is 1.15
-    // Wait, let's re-examine excel logic for multipliers.
-    // 1.15 -> 74
-    // 1.20 -> 77
-    // 1.25 -> 80
-    // If rate is 16 soles / 100k, then 100k gold = 16 soles.
-    // The multipliers seem to be independent rows. Let's just calculate them as rate * mult * constant or similar.
-    // Based on Excel: 1.15 -> 74. (1.15 * 64 approx?). 
-    // Actually, looking at the image: 1.15, 1.20, 1.25 are in a column, and 74, 77, 80 are next to them.
-    // If we assume a base value like 64.3... 64.3 * 1.15 = 73.9 (74).
-    
-    const baseMult = (totalCost / tokenCount); // Approximate base for multipliers
+    const baseMult = (totalCost / tokenCount);
     elements.mult115.textContent = `${(1.15 * baseMult).toFixed(0)}`;
     elements.mult120.textContent = `${(1.20 * baseMult).toFixed(0)}`;
     elements.mult125.textContent = `${(1.25 * baseMult).toFixed(0)}`;
@@ -119,7 +99,6 @@ function init() {
     if (savedCount) elements.tokenCountInput.value = savedCount;
     
     fetchTokenPrice();
-    // Auto refresh every 5 minutes
     setInterval(fetchTokenPrice, 300000);
 }
 

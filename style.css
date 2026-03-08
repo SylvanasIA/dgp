@@ -96,3 +96,57 @@ input:focus { border-color: var(--primary-gold); }
     .dashboard-layout { grid-template-columns: 1fr; }
     .main-content { grid-template-columns: 1fr; }
 }
+
+/* Link Cards Section */
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.2rem;
+    margin-top: 2.5rem;
+}
+
+.link-card {
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: var(--glass-blur);
+}
+
+.link-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-gold);
+    box-shadow: 0 10px 30px rgba(255, 204, 0, 0.15);
+}
+
+.link-icon {
+    font-size: 1.8rem;
+    filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.3));
+}
+
+.link-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.link-title {
+    color: var(--primary-gold);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.link-desc {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+@media (max-width: 600px) {
+    .links-grid {
+        grid-template-columns: 1fr;
+    }
+}

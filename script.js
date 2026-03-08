@@ -1,18 +1,29 @@
 const API_ENDPOINT = 'https://data.wowtoken.app/v2/current/retail.json';
+const TOKEN_BALANCE_VALUE = 55; // 1 Token = 55 balance units
 
 const elements = {
     tokenGoldPrice: document.getElementById('token-gold-price'),
     tokenSolesPrice: document.getElementById('token-soles-price'),
     statusBadge: document.getElementById('status-badge'),
     goldRateInput: document.getElementById('gold-rate'),
-    tokenCountInput: document.getElementById('token-count'),
-    blizzardOfficial: document.getElementById('blizzard-official'),
-    wowTokenGold: document.getElementById('wow-token-gold'),
+    goldRateSellInput: document.getElementById('gold-rate-sell'),
+    blizzardInput: document.getElementById('blizzard-input'),
+    
+    // Display elements
+    decimalTokenDisplay: document.getElementById('decimal-token-display'),
+    wholeTokenDisplay: document.getElementById('whole-token-display'),
+    profitRatioDisplay: document.getElementById('profit-ratio-display'),
+    opCostDisplay: document.getElementById('op-cost-display'),
+    blizzardDisplay: document.getElementById('blizzard-official-display'),
+    wowTokenGold: document.getElementById('wow-token-gold'), // Renamed to "Soles per Token" in UI
     totalCostSoles: document.getElementById('total-cost-soles'),
-    balanceRemaining: document.getElementById('balance-remaining'),
+    surplusDisplay: document.getElementById('surplus-display'),
+    balanceTotal: document.getElementById('balance-total'),
+    
     mult115: document.getElementById('mult-115'),
     mult120: document.getElementById('mult-120'),
-    mult125: document.getElementById('mult-125')
+    mult125: document.getElementById('mult-125'),
+    multMax: document.getElementById('mult-max')
 };
 
 let currentTokenGold = 0;
@@ -21,82 +32,96 @@ async function fetchTokenPrice() {
     try {
         elements.statusBadge.textContent = 'Actualizando...';
         elements.statusBadge.className = 'status-badge';
-        
         const response = await fetch(API_ENDPOINT);
-        if (!response.ok) throw new Error('API Response Error');
-        
+        if (!response.ok) throw new Error('API Error');
         const data = await response.json();
-        
-        // El formato es ["timestamp", precio]
         if (data.us && Array.isArray(data.us)) {
             currentTokenGold = data.us[1];
         } else {
-            throw new Error('Formato de datos inválido');
+            throw new Error('Format Error');
         }
-
         updateUI();
-        
         elements.statusBadge.textContent = 'En Vivo';
         elements.statusBadge.classList.add('status-live');
     } catch (error) {
         console.error('Fetch error:', error);
-        
-        if (window.location.protocol === 'file:') {
-            elements.statusBadge.textContent = 'CORS Error (Local File)';
-            elements.statusBadge.title = 'Los navegadores bloquean peticiones API desde archivos locales. Funcionará correctamente al subirlo a GitHub.';
-        } else {
-            elements.statusBadge.textContent = 'Error API';
-        }
-        
-        elements.statusBadge.style.background = 'rgba(255, 0, 0, 0.2)';
-        elements.statusBadge.style.color = '#ff4444';
-        
-        // Use default values for calculations even if API fails
-        currentTokenGold = 241000; // Updated to match user's screenshot price
+        elements.statusBadge.textContent = 'Modo Local (Offline)';
+        elements.statusBadge.style.background = 'rgba(255, 153, 0, 0.2)';
+        elements.statusBadge.style.color = '#ff9900';
+        currentTokenGold = 243464; 
         updateUI();
     }
 }
 
 function updateUI() {
-    const goldRate = parseFloat(elements.goldRateInput.value) || 0;
-    const tokenCount = parseFloat(elements.tokenCountInput.value) || 0;
+    const goldRateBuy = parseFloat(elements.goldRateInput?.value) || 0;
+    const goldRateSell = parseFloat(elements.goldRateSellInput?.value) || 0;
+    const blizzardNeeded = parseFloat(elements.blizzardInput?.value) || 109;
 
-    // 100k gold = goldRate (Soles)
-    const tokenSoles = (currentTokenGold * goldRate) / 100000;
-    const totalCost = tokenSoles * tokenCount;
+    // 1. Cantidad de WowTokens (Decimal) = Blizzard / 55
+    const decimalTokens = blizzardNeeded / TOKEN_BALANCE_VALUE;
     
-    // UI Updates
-    elements.tokenGoldPrice.textContent = `${(currentTokenGold / 1000).toLocaleString()} K`;
-    elements.tokenSolesPrice.textContent = `${tokenSoles.toFixed(1)} S/`;
+    // 2. Cantidad de tokens (Entero) = Math.ceil(decimalTokens)
+    const wholeTokens = Math.ceil(decimalTokens);
     
-    elements.blizzardOfficial.textContent = '91';
-    elements.wowTokenGold.textContent = `${(currentTokenGold / 10000).toFixed(1)}`;
-    elements.totalCostSoles.textContent = `${totalCost.toFixed(1)} S/`;
+    // 3. Valor de 1 Token en Soles = (Gold / 100k) * Rate
+    const solesPerToken = (currentTokenGold * goldRateBuy) / 100000;
     
-    elements.balanceRemaining.textContent = '89';
+    // 4. COSTO SOLES = Decimal Tokens * Soles per Token
+    const totalCost = decimalTokens * solesPerToken;
+    
+    // 5. SALDO TOTAL = Whole Tokens * 55
+    const saldoTotal = wholeTokens * TOKEN_BALANCE_VALUE;
+    
+    // 6. EXCEDENTE = Saldo Total - Blizzard Oficial
+    const excedente = saldoTotal - blizzardNeeded;
 
-    // Multipliers
-    const baseMult = (totalCost / tokenCount);
-    elements.mult115.textContent = `${(1.15 * baseMult).toFixed(0)}`;
-    elements.mult120.textContent = `${(1.20 * baseMult).toFixed(0)}`;
-    elements.mult125.textContent = `${(1.25 * baseMult).toFixed(0)}`;
+    // 7. Razón de ganancia = Venta / Compra
+    const profitRatio = goldRateBuy > 0 ? (goldRateSell / goldRateBuy) : 0;
 
-    // Save inputs
-    localStorage.setItem('goldRate', goldRate);
-    localStorage.setItem('tokenCount', tokenCount);
+    // --- Update UI Elements ---
+    if (elements.tokenGoldPrice) elements.tokenGoldPrice.textContent = `${(currentTokenGold / 1000).toLocaleString()} K`;
+    if (elements.tokenSolesPrice) elements.tokenSolesPrice.textContent = `${solesPerToken.toFixed(1)} S/`;
+    
+    // Summary Table
+    if (elements.decimalTokenDisplay) elements.decimalTokenDisplay.textContent = decimalTokens.toFixed(3);
+    if (elements.wholeTokenDisplay) elements.wholeTokenDisplay.textContent = wholeTokens.toString();
+    if (elements.profitRatioDisplay) elements.profitRatioDisplay.textContent = profitRatio.toFixed(3);
+    if (elements.opCostDisplay) elements.opCostDisplay.textContent = `${totalCost.toFixed(1)} S/`;
+    
+    if (elements.blizzardDisplay) elements.blizzardDisplay.textContent = blizzardNeeded.toString();
+    if (elements.wowTokenGold) elements.wowTokenGold.textContent = `${solesPerToken.toFixed(1)} S/`;
+    if (elements.totalCostSoles) elements.totalCostSoles.textContent = `${totalCost.toFixed(1)} S/`;
+    if (elements.surplusDisplay) elements.surplusDisplay.textContent = `${excedente.toFixed(0)}`;
+    if (elements.balanceTotal) elements.balanceTotal.textContent = `${saldoTotal.toFixed(0)}`;
+
+    // Multipliers (Based on Total Cost as seen in Case 3)
+    if (elements.mult115) elements.mult115.textContent = `${(totalCost * 1.15).toFixed(0)}`;
+    if (elements.mult120) elements.mult120.textContent = `${(totalCost * 1.20).toFixed(0)}`;
+    if (elements.mult125) elements.mult125.textContent = `${(totalCost * 1.25).toFixed(0)}`;
+    
+    // VARIACION MAX: (Saldo Total / 55) * Valor Token * 1.25
+    // Saldo Total / 55 es igual a wholeTokens
+    if (elements.multMax) elements.multMax.textContent = `${(wholeTokens * solesPerToken * 1.25).toFixed(1)}`;
+
+    localStorage.setItem('goldRate', goldRateBuy);
+    localStorage.setItem('goldRateSell', goldRateSell);
+    localStorage.setItem('blizzardNeeded', blizzardNeeded);
 }
 
 // Event Listeners
-elements.goldRateInput.addEventListener('input', updateUI);
-elements.tokenCountInput.addEventListener('input', updateUI);
+elements.goldRateInput?.addEventListener('input', updateUI);
+elements.goldRateSellInput?.addEventListener('input', updateUI);
+elements.blizzardInput?.addEventListener('input', updateUI);
 
-// Init
 function init() {
     const savedRate = localStorage.getItem('goldRate');
-    const savedCount = localStorage.getItem('tokenCount');
+    const savedRateSell = localStorage.getItem('goldRateSell');
+    const savedBlizzard = localStorage.getItem('blizzardNeeded');
     
     if (savedRate) elements.goldRateInput.value = savedRate;
-    if (savedCount) elements.tokenCountInput.value = savedCount;
+    if (savedRateSell) elements.goldRateSellInput.value = savedRateSell;
+    if (savedBlizzard) elements.blizzardInput.value = savedBlizzard;
     
     fetchTokenPrice();
     setInterval(fetchTokenPrice, 300000);

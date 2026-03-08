@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WoW Token Dashboard | Control de Oro</title>
+    <title>WoW Token Manager | v3</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,100 +13,125 @@
     <div class="container">
         <header>
             <h1>WoW Token Manager</h1>
-            <p class="subtitle">Control comercial de WoW Token y Oro (US Region)</p>
+            <p class="subtitle">Gestión Comercial y Operativa (US Region)</p>
         </header>
 
-        <main>
-            <div class="grid">
-                <!-- Current Market Data -->
-                <div class="card">
-                    <div class="card-title">
-                        PRECIO ACTUAL TOKEN
-                        <span id="status-badge" class="status-badge">Cargando...</span>
-                    </div>
-                    <div id="token-gold-price" class="card-value">--- K</div>
-                    <div class="card-subvalue">Oro por 1 Token</div>
-                </div>
-
-                <div class="card">
-                    <div class="card-title">VALOR TOKEN EN SOLES</div>
-                    <div id="token-soles-price" class="card-value">--- S/</div>
-                    <div class="card-subvalue">Calculado según tasa de oro</div>
-                </div>
-
-                <!-- Input Controls -->
+        <main class="dashboard-layout">
+            <!-- Sidebar: Configuración -->
+            <aside class="sidebar">
                 <div class="card">
                     <div class="card-title">CONFIGURACIÓN BASE</div>
                     <div class="input-group">
-                        <label for="gold-rate">COSTO SOLES X 100K ORO</label>
+                        <label for="blizzard-input">BLIZZARD OFICIAL (USD)</label>
+                        <input type="number" id="blizzard-input" value="109" step="1">
+                        <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.3rem;">Monto necesario para el servicio</p>
+                    </div>
+                    <div class="input-group">
+                        <label for="gold-rate">COMPRA ORO (S/ x 100k)</label>
                         <input type="number" id="gold-rate" value="16" step="0.1">
                     </div>
                     <div class="input-group">
-                        <label for="token-count">CANTIDAD DE TOKENS</label>
-                        <input type="number" id="token-count" value="1.655" step="0.001">
+                        <label for="gold-rate-sell">VENTA ORO (S/ x 100k)</label>
+                        <input type="number" id="gold-rate-sell" value="18.5" step="0.1">
                     </div>
                 </div>
-            </div>
 
-            <div class="grid">
-                <!-- Analysis -->
                 <div class="card">
-                    <div class="card-title">RESUMEN DE SALDO</div>
+                    <div class="card-title">RESULTADOS OPERATIVOS</div>
+                    <div class="input-group">
+                        <label>COMPRA (TOKENS ENTEROS)</label>
+                        <div id="whole-token-display" class="highlight" style="font-size: 1.1rem;">---</div>
+                    </div>
+                    <div class="input-group">
+                        <label>TOKENS NECESARIOS</label>
+                        <div id="decimal-token-display" class="highlight" style="font-size: 1.1rem;">---</div>
+                    </div>
+                    <div class="input-group" style="padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05);">
+                        <label>COSTO SOLES (OPERATIVO)</label>
+                        <div id="op-cost-display" class="highlight" style="font-size: 1.1rem; color: var(--primary-gold);">---</div>
+                    </div>
+                    <div class="input-group">
+                        <label>RAZÓN DE VENTA (S/)</label>
+                        <div id="profit-ratio-display" class="highlight" style="font-size: 1.1rem; color: var(--accent-blue);">---</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <section class="main-content">
+                <!-- Market Status -->
+                <div class="card">
+                    <div class="card-title">
+                        MERCADO EN VIVO
+                        <span id="status-badge" class="status-badge">Cargando...</span>
+                    </div>
+                    <div id="token-gold-price" class="card-value">--- K</div>
+                    <div class="card-subvalue">Oro del Mercado Actual</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">VALOR UNITARIO</div>
+                    <div id="token-soles-price" class="card-value">--- S/</div>
+                    <div class="card-subvalue">Costo de 1 Token en Soles</div>
+                </div>
+
+                <!-- Balance Analysis -->
+                <div class="card">
+                    <div class="card-title">ANÁLISIS DE COSTOS</div>
                     <table class="data-table">
                         <tr>
                             <td>Blizzard Oficial</td>
-                            <td id="blizzard-official" class="highlight">---</td>
+                            <td id="blizzard-official-display" class="highlight">---</td>
                         </tr>
                         <tr>
-                            <td>WoW Token (Oro)</td>
+                            <td>Valor 1 Token</td>
                             <td id="wow-token-gold" class="highlight">---</td>
                         </tr>
                         <tr>
-                            <td>Costo en Soles</td>
-                            <td id="total-cost-soles" class="highlight">---</td>
+                            <td>Costo Soles (Neto)</td>
+                            <td id="total-cost-soles" class="highlight" style="font-size: 1.1rem;">---</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Surplus & Multipliers -->
+                <div class="card">
+                    <div class="card-title">SALDO Y VARIACIONES</div>
+                    <table class="data-table">
+                        <tr>
+                            <td>Saldo Total (Tokens)</td>
+                            <td id="balance-total" class="highlight">---</td>
                         </tr>
                         <tr>
-                            <td>Restante Saldo</td>
-                            <td id="balance-remaining" class="highlight">---</td>
+                            <td>Excedente de Saldo</td>
+                            <td id="surplus-display" class="highlight">---</td>
                         </tr>
                     </table>
+                    
+                    <div style="margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+                        <div class="card-title" style="font-size: 0.75rem;">VARIACIONES (MULTIPLIERS)</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                            <div style="text-align: center; background: rgba(0,0,0,0.2); padding: 0.5rem; border-radius: 8px;">
+                                <div style="font-size: 0.7rem; color: var(--text-muted);">1.15x Base</div>
+                                <div id="mult-115" class="highlight" style="text-align: center;">---</div>
+                            </div>
+                            <div style="text-align: center; background: rgba(0,0,0,0.2); padding: 0.5rem; border-radius: 8px;">
+                                <div style="font-size: 0.7rem; color: var(--text-muted);">1.20x Bronze</div>
+                                <div id="mult-120" class="highlight" style="text-align: center;">---</div>
+                            </div>
+                            <div style="text-align: center; background: rgba(0,0,0,0.2); padding: 0.5rem; border-radius: 8px;">
+                                <div style="font-size: 0.7rem; color: var(--text-muted);">1.25x Silver</div>
+                                <div id="mult-125" class="highlight" style="text-align: center;">---</div>
+                            </div>
+                            <div style="text-align: center; background: rgba(0,204,255,0.05); padding: 0.5rem; border-radius: 8px; border: 1px solid rgba(0,204,255,0.1);">
+                                <div style="font-size: 0.7rem; color: var(--accent-blue);">1.25x Max (Saldo)</div>
+                                <div id="mult-max" class="highlight" style="text-align: center; color: var(--accent-blue);">---</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Multipliers -->
-                <div class="card">
-                    <div class="card-title">TABLA DE COMPRA (MULTIPLIERS)</div>
-                    <table class="data-table" id="multiplier-table">
-                        <thead>
-                            <tr>
-                                <th>Mult.</th>
-                                <th>Soles</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1.15</td>
-                                <td id="mult-115">---</td>
-                            </tr>
-                            <tr>
-                                <td>1.20</td>
-                                <td id="mult-120">---</td>
-                            </tr>
-                            <tr>
-                                <td>1.25</td>
-                                <td id="mult-125">---</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            </section>
         </main>
-
-        <footer>
-            <a href="https://us.shop.battle.net/es-es/product/world-of-warmcraft-midnight" target="_blank">WoW Midnight</a>
-            <a href="https://us.shop.battle.net/es-es/family/world-of-warcraft#bundles" target="_blank">Bundles</a>
-            <a href="https://us.shop.battle.net/es-es/family/world-of-warcraft#mounts" target="_blank">Monturas</a>
-            <a href="https://us.shop.battle.net/es-es/family/world-of-warcraft#transmogs" target="_blank">Transmogs</a>
-        </footer>
     </div>
 
     <script src="script.js"></script>

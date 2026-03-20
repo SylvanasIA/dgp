@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoW Token Manager | Silvermoon's Alacrity</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>WoW Token Manager</h1>
+            <p class="subtitle">Gestión Comercial y Operativa (US Region)</p>
+            
+            <nav class="main-nav">
+                <a href="index.html" class="nav-tab">Token & Saldo</a>
+                <a href="crafts.html" class="nav-tab active">Crafts & Profesiones</a>
+            </nav>
+        </header>
+
+        <div style="margin-bottom: 1.5rem;">
+            <a href="crafts.html" style="color: var(--accent-blue); text-decoration: none; font-size: 0.9rem; font-weight: 600;">&larr; Volver al Hub de Crafteos</a>
+        </div>
+
+        <main class="dashboard-layout">
+            <!-- Sidebar: Configuración de Materiales -->
+            <aside class="sidebar">
+                <div class="card">
+                    <div class="card-title">CONFIGURACIÓN DE PRODUCCIÓN</div>
+                    <div class="input-group">
+                        <label for="craft-quantity">CANTIDAD A CRAFTEAR</label>
+                        <input type="number" id="craft-quantity" value="1" step="1" min="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="sell-price">PRECIO DE VENTA (Oro por unidad)</label>
+                        <input type="number" id="sell-price" value="0" step="0.1">
+                        <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.3rem;">La subasta retiene el 5% de este valor.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">COSTO DE MATERIALES (Oro por unidad)</div>
+                    
+                    <div class="input-group">
+                        <div class="mat-label-wrapper">
+                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_thematicfoozles_moteofpurelight_gold.jpg" alt="Mote of Light" class="mat-icon">
+                            <label for="mat-mote-light">Mote of Light (x15)</label>
+                        </div>
+                        <input type="number" id="mat-mote-light" class="mat-input" data-qty="15" value="0" step="0.1">
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="mat-label-wrapper">
+                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_herb_liferoot_stem.jpg" alt="Petrified Root" class="mat-icon">
+                            <label for="mat-petrified">Petrified Root (x2)</label>
+                        </div>
+                        <input type="number" id="mat-petrified" class="mat-input" data-qty="2" value="0" step="0.1">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="mat-label-wrapper">
+                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_enchanting_enchantingdust_green.jpg" alt="Eversinging Dust" class="mat-icon">
+                            <label for="mat-eversinging-dust">Eversinging Dust (x15)</label>
+                        </div>
+                        <input type="number" id="mat-eversinging-dust" class="mat-input" data-qty="15" value="0" step="0.1">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="mat-label-wrapper">
+                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_enchanting_enchantingshard_blue.jpg" alt="Radiant Shard" class="mat-icon">
+                            <label for="mat-radiant-shard">Radiant Shard (x3)</label>
+                        </div>
+                        <input type="number" id="mat-radiant-shard" class="mat-input" data-qty="3" value="0" step="0.1">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="mat-label-wrapper">
+                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_enchanting_enchantingcrystal_orange.jpg" alt="Dawn Crystal" class="mat-icon">
+                            <label for="mat-dawn-crystal">Dawn Crystal (x1)</label>
+                        </div>
+                        <input type="number" id="mat-dawn-crystal" class="mat-input" data-qty="1" value="0" step="0.1">
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content: Resultados -->
+            <section class="main-content">
+                <div class="card" style="grid-column: 1 / -1;">
+                    <div class="card-title">
+                        RESULTADO DE PRODUCCIÓN (MULTICRAFT Y RESOURCEFULNESS)
+                        <span class="status-badge status-live">Calculadora Activa</span>
+                    </div>
+                    
+                    <div style="display: flex; gap: 2rem; align-items: center; margin-top: 0.5rem;">
+                        <div class="input-group" style="flex: 1; margin-bottom: 0;">
+                            <label for="obtained-quantity" style="color: var(--accent-blue);">CANTIDAD OBTENIDA REAL</label>
+                            <input type="number" id="obtained-quantity" value="1" step="1" min="1" style="font-size: 1.2rem; border-color: var(--accent-blue);">
+                            <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.3rem;">Ingresa el total final incluyendo procs de Multicraft.</p>
+                        </div>
+                    </div>
+
+                    <!-- Resourcefulness Grid -->
+                    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05);">
+                        <label style="color: var(--primary-gold); font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Materiales Recuperados / Ahorrados</label>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem; margin-bottom: 1rem;">Ingresa la cantidad de materiales que no se consumieron (Resourcefulness) para sumarlos a tu Profit.</p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
+                            <div class="input-group" style="margin-bottom: 0;">
+                                <div class="mat-label-wrapper" style="gap: 0.5rem; margin-bottom: 0.2rem;">
+                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_thematicfoozles_moteofpurelight_gold.jpg" alt="Mote Light" class="mat-icon" style="width: 20px; height: 20px;">
+                                    <label for="saved-mote-light" style="font-size: 0.75rem;">Mote Light</label>
+                                </div>
+                                <input type="number" id="saved-mote-light" class="saved-mat-input" data-mat="mat-mote-light" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
+                            </div>
+                            
+                            <div class="input-group" style="margin-bottom: 0;">
+                                <div class="mat-label-wrapper" style="gap: 0.5rem; margin-bottom: 0.2rem;">
+                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_herb_liferoot_stem.jpg" alt="Petrified Root" class="mat-icon" style="width: 20px; height: 20px;">
+                                    <label for="saved-petrified" style="font-size: 0.75rem;">Petrified Root</label>
+                                </div>
+                                <input type="number" id="saved-petrified" class="saved-mat-input" data-mat="mat-petrified" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
+                            </div>
+
+                            <div class="input-group" style="margin-bottom: 0;">
+                                <div class="mat-label-wrapper" style="gap: 0.5rem; margin-bottom: 0.2rem;">
+                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_enchanting_enchantingdust_green.jpg" alt="Eversinging Dust" class="mat-icon" style="width: 20px; height: 20px;">
+                                    <label for="saved-eversinging-dust" style="font-size: 0.75rem;">Eversinging Dust</label>
+                                </div>
+                                <input type="number" id="saved-eversinging-dust" class="saved-mat-input" data-mat="mat-eversinging-dust" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
+                            </div>
+
+                            <div class="input-group" style="margin-bottom: 0;">
+                                <div class="mat-label-wrapper" style="gap: 0.5rem; margin-bottom: 0.2rem;">
+                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_enchanting_enchantingshard_blue.jpg" alt="Radiant Shard" class="mat-icon" style="width: 20px; height: 20px;">
+                                    <label for="saved-radiant-shard" style="font-size: 0.75rem;">Radiant Shard</label>
+                                </div>
+                                <input type="number" id="saved-radiant-shard" class="saved-mat-input" data-mat="mat-radiant-shard" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
+                            </div>
+
+                            <div class="input-group" style="margin-bottom: 0;">
+                                <div class="mat-label-wrapper" style="gap: 0.5rem; margin-bottom: 0.2rem;">
+                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_enchanting_enchantingcrystal_orange.jpg" alt="Dawn Crystal" class="mat-icon" style="width: 20px; height: 20px;">
+                                    <label for="saved-dawn-crystal" style="font-size: 0.75rem;">Dawn Crystal</label>
+                                </div>
+                                <input type="number" id="saved-dawn-crystal" class="saved-mat-input" data-mat="mat-dawn-crystal" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Análisis de Inversión -->
+                <div class="card">
+                    <div class="card-title">ANÁLISIS DE COSTOS (INVERSIÓN)</div>
+                    <table class="data-table">
+                        <tr>
+                            <td>Costo Total (1 Unidad)</td>
+                            <td id="cost-per-unit" class="highlight">0.0</td>
+                        </tr>
+                        <tr>
+                            <td>Cantidad a Craftear</td>
+                            <td id="display-quantity" class="highlight" style="color: var(--text-main);">1</td>
+                        </tr>
+                        <tr style="border-top: 2px solid rgba(255,204,0,0.1);">
+                            <td>Inversión Total</td>
+                            <td id="total-investment" class="highlight" style="color: var(--primary-gold); font-size: 1.2rem;">0.0</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Proyección de Ganancias -->
+                <div class="card">
+                    <div class="card-title">PROYECCIÓN DE VENTAS</div>
+                    <table class="data-table">
+                        <tr>
+                            <td>Cantidad Obtenida</td>
+                            <td id="display-obtained" class="highlight" style="color: var(--accent-blue);">1</td>
+                        </tr>
+                        <tr>
+                            <td>Venta Bruta (Total)</td>
+                            <td id="gross-revenue" class="highlight">0.0</td>
+                        </tr>
+                        <tr>
+                            <td>Comisión Subasta (5%)</td>
+                            <td id="ah-cut" class="highlight" style="color: rgba(255, 100, 100, 0.9);">-0.0</td>
+                        </tr>
+                        <tr>
+                            <td>Valor Materiales Ahorrados</td>
+                            <td id="resourcefulness-savings" class="highlight" style="color: var(--primary-gold);">+0.0</td>
+                        </tr>
+                        <tr>
+                            <td>Ingreso Neto Total</td>
+                            <td id="net-revenue" class="highlight">0.0</td>
+                        </tr>
+                        <tr style="border-top: 2px solid rgba(0,204,255,0.1);">
+                            <td>Ganancia Neta (Profit)</td>
+                            <td id="net-profit" class="highlight" style="color: var(--accent-blue); font-size: 1.2rem;">0.0</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Historial y Backups -->
+                <div class="card" style="grid-column: 1 / -1; margin-top: 2rem;">
+                    <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>HISTORIAL DE PRODUCCIÓN</span>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button id="btn-export-json" class="action-btn" style="background: rgba(255, 204, 0, 0.1); color: var(--primary-gold); font-size: 0.75rem; border-radius: 4px; border: 1px solid rgba(255, 204, 0, 0.3); padding: 0.4rem 0.8rem; cursor: pointer;">⬇ Exportar JSON</button>
+                            <label for="btn-import-json" class="action-btn" style="background: rgba(0, 204, 255, 0.1); color: var(--accent-blue); font-size: 0.75rem; border-radius: 4px; border: 1px solid rgba(0, 204, 255, 0.3); padding: 0.4rem 0.8rem; cursor: pointer; margin: 0;">⬆ Importar JSON</label>
+                            <input type="file" id="btn-import-json" accept=".json" style="display: none;">
+                        </div>
+                    </div>
+                    
+                    <button id="btn-save-record" class="buy-btn" style="margin-bottom: 1rem; padding: 0.8rem; font-size: 0.9rem; margin-top: 1rem; width: 100%;">+ GUARDAR REGISTRO ACTUAL</button>
+
+                    <div style="overflow-x: auto;">
+                        <table class="data-table" id="history-table" style="font-size: 0.85rem;">
+                            <thead>
+                                <tr>
+                                    <th style="color: var(--text-muted); padding-bottom: 0.5rem; text-align: left;">Fecha</th>
+                                    <th style="color: var(--text-muted); padding-bottom: 0.5rem; text-align: right;" title="Cantidad de crafteos intentados">Intentos</th>
+                                    <th style="color: var(--text-muted); padding-bottom: 0.5rem; text-align: right;" title="Cantidad real obtenida (multicraft)">Obtenidos</th>
+                                    <th style="color: var(--text-muted); padding-bottom: 0.5rem; text-align: right;">Inversión</th>
+                                    <th style="color: var(--text-muted); padding-bottom: 0.5rem; text-align: right;">Ahorro Mat.</th>
+                                    <th style="color: var(--text-muted); padding-bottom: 0.5rem; text-align: right;">Ganancia Neta</th>
+                                    <th style="padding-bottom: 0.5rem;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-tbody">
+                                <!-- Filas dinámicas -->
+                            </tbody>
+                            <tfoot style="border-top: 2px solid rgba(255,255,255,0.1);">
+                                <tr>
+                                    <td style="color: var(--primary-gold); padding-top: 1rem; font-weight: bold; text-align: left;">TOTALES</td>
+                                    <td id="total-history-crafts" style="padding-top: 1rem; text-align: right; color: var(--text-muted); font-weight: bold;">0</td>
+                                    <td id="total-history-obtained" style="padding-top: 1rem; text-align: right; color: var(--accent-blue); font-weight: bold;">0</td>
+                                    <td id="total-history-investment" style="padding-top: 1rem; text-align: right; color: var(--text-main); font-weight: bold;">0</td>
+                                    <td id="total-history-savings" style="padding-top: 1rem; text-align: right; color: var(--primary-gold); font-weight: bold;">0</td>
+                                    <td id="total-history-profit" style="padding-top: 1rem; text-align: right; font-weight: bold; font-size: 1.1rem;">0</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer style="margin-top: 4rem; text-align: center; color: var(--text-muted); font-size: 0.8rem; opacity: 0.6;">
+            &copy; 2026 WoW Token Manager. Datos provistos por la comunidad.
+        </footer>
+    </div>
+
+    <!-- Reutilizamos todo el motor de cálculos dinámico -->
+    <script src="crafts.js"></script>
+</body>
+</html>

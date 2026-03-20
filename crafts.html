@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoW Crafts Manager | v3</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>WoW Token Manager</h1>
+            <p class="subtitle">Gestión Comercial y Operativa (US Region)</p>
+            
+            <nav class="main-nav">
+                <a href="index.html" class="nav-tab">Token & Saldo</a>
+                <a href="crafts.html" class="nav-tab active">Crafts & Profesiones</a>
+            </nav>
+        </header>
+
+        <main style="padding-top: 2rem;">
+            <div style="margin-bottom: 2rem;">
+                <h2 style="color: var(--primary-gold); margin-bottom: 0.5rem;">Libro de Recetas (Calculadoras)</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Selecciona el ítem que deseas craftear para abrir su calculadora específica.</p>
+            </div>
+
+            <div class="links-grid" style="margin-top: 0;">
+                <a href="craft_infused_hide.html" class="link-card" style="flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; width: 100%;">
+                        <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_leatherworking_combo_hide_magical_lightbloom.jpg" alt="Infused Scalewoven Hide" style="width: 48px; border-radius: 8px; border: 1px solid var(--border-color);" onerror="this.src='https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg'">
+                        <div>
+                            <div class="link-title" style="font-size: 1.1rem;">Infused Scalewoven Hide</div>
+                            <div class="link-desc" style="margin-top: 0.2rem;">Tier 1 - Peletería Avanzada</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 1rem; width: 100%;">
+                        Requiere: Motes (Light, Primal, Void, Wild), Majestic Hide, Scalewoven Hide.
+                    </div>
+                </a>
+
+                <!-- Placeholder for future recipes -->
+                <div class="link-card" style="flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.5rem; opacity: 0.5; cursor: not-allowed;">
+                    <div style="display: flex; align-items: center; gap: 1rem; width: 100%;">
+                        <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">+</div>
+                        <div>
+                            <div class="link-title" style="font-size: 1.1rem; color: var(--text-muted);">Nueva Receta</div>
+                            <div class="link-desc" style="margin-top: 0.2rem;">Próximamente</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer style="margin-top: 4rem; text-align: center; color: var(--text-muted); font-size: 0.8rem; opacity: 0.6;">
+            &copy; 2026 WoW Token Manager. Datos provistos por la comunidad.
+        </footer>
+    </div>
+</body>
+</html>

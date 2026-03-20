@@ -83,23 +83,27 @@ function updateCraftUI() {
     // Profit
     const netProfit = netRevenue - totalInvestment;
 
+    // Helper formatter
+    const fmt = (num) => num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmtInt = (num) => num.toLocaleString('en-US');
+
     // Update UI
-    if (craftElements.costPerUnit) craftElements.costPerUnit.textContent = unitCost.toFixed(2);
-    if (craftElements.displayQuantity) craftElements.displayQuantity.textContent = quantity.toString();
-    if (craftElements.totalInvestment) craftElements.totalInvestment.textContent = totalInvestment.toFixed(2);
+    if (craftElements.costPerUnit) craftElements.costPerUnit.textContent = fmt(unitCost);
+    if (craftElements.displayQuantity) craftElements.displayQuantity.textContent = fmtInt(quantity);
+    if (craftElements.totalInvestment) craftElements.totalInvestment.textContent = fmt(totalInvestment);
     
-    if (craftElements.displayObtained) craftElements.displayObtained.textContent = obtainedQuantity.toString();
-    if (craftElements.grossRevenue) craftElements.grossRevenue.textContent = grossRevenue.toFixed(2);
-    if (craftElements.ahCut) craftElements.ahCut.textContent = `-${ahCut.toFixed(2)}`;
+    if (craftElements.displayObtained) craftElements.displayObtained.textContent = fmtInt(obtainedQuantity);
+    if (craftElements.grossRevenue) craftElements.grossRevenue.textContent = fmt(grossRevenue);
+    if (craftElements.ahCut) craftElements.ahCut.textContent = `-${fmt(ahCut)}`;
     
     if (craftElements.resourcefulnessSavings) {
-        craftElements.resourcefulnessSavings.textContent = `+${savingsTotal.toFixed(2)}`;
+        craftElements.resourcefulnessSavings.textContent = `+${fmt(savingsTotal)}`;
     }
     
-    if (craftElements.netRevenue) craftElements.netRevenue.textContent = netRevenue.toFixed(2);
+    if (craftElements.netRevenue) craftElements.netRevenue.textContent = fmt(netRevenue);
     
     if (craftElements.netProfit) {
-        craftElements.netProfit.textContent = netProfit.toFixed(2);
+        craftElements.netProfit.textContent = fmt(netProfit);
         // Change color based on profit/loss
         if (netProfit > 0) {
             craftElements.netProfit.style.color = 'var(--accent-blue)';

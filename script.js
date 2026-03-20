@@ -79,30 +79,35 @@ function updateUI() {
     // 7. Razón de ganancia = Venta / Compra
     const profitRatio = goldRateBuy > 0 ? (goldRateSell / goldRateBuy) : 0;
 
+    // Helper formatters
+    const fmt = (num) => num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmtV = (num) => num.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    const fmtInt = (num) => num.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
     // --- Update UI Elements ---
-    if (elements.tokenGoldPrice) elements.tokenGoldPrice.textContent = `${(currentTokenGold / 1000).toLocaleString()} K`;
-    if (elements.tokenSolesPrice) elements.tokenSolesPrice.textContent = `${solesPerToken.toFixed(1)} S/`;
+    if (elements.tokenGoldPrice) elements.tokenGoldPrice.textContent = `${fmtInt(currentTokenGold / 1000)} K`;
+    if (elements.tokenSolesPrice) elements.tokenSolesPrice.textContent = `${fmtV(solesPerToken)} S/`;
     
     // Summary Table
-    if (elements.decimalTokenDisplay) elements.decimalTokenDisplay.textContent = decimalTokens.toFixed(3);
-    if (elements.wholeTokenDisplay) elements.wholeTokenDisplay.textContent = wholeTokens.toString();
-    if (elements.profitRatioDisplay) elements.profitRatioDisplay.textContent = profitRatio.toFixed(3);
-    if (elements.opCostDisplay) elements.opCostDisplay.textContent = `${totalCost.toFixed(1)} S/`;
+    if (elements.decimalTokenDisplay) elements.decimalTokenDisplay.textContent = fmtV(decimalTokens);
+    if (elements.wholeTokenDisplay) elements.wholeTokenDisplay.textContent = fmtInt(wholeTokens);
+    if (elements.profitRatioDisplay) elements.profitRatioDisplay.textContent = fmtV(profitRatio);
+    if (elements.opCostDisplay) elements.opCostDisplay.textContent = `${fmtV(totalCost)} S/`;
     
-    if (elements.blizzardDisplay) elements.blizzardDisplay.textContent = blizzardNeeded.toString();
-    if (elements.wowTokenGold) elements.wowTokenGold.textContent = `${solesPerToken.toFixed(1)} S/`;
-    if (elements.totalCostSoles) elements.totalCostSoles.textContent = `${totalCost.toFixed(1)} S/`;
-    if (elements.surplusDisplay) elements.surplusDisplay.textContent = `${excedente.toFixed(0)}`;
-    if (elements.balanceTotal) elements.balanceTotal.textContent = `${saldoTotal.toFixed(0)}`;
+    if (elements.blizzardDisplay) elements.blizzardDisplay.textContent = fmtInt(blizzardNeeded);
+    if (elements.wowTokenGold) elements.wowTokenGold.textContent = `${fmtV(solesPerToken)} S/`;
+    if (elements.totalCostSoles) elements.totalCostSoles.textContent = `${fmtV(totalCost)} S/`;
+    if (elements.surplusDisplay) elements.surplusDisplay.textContent = fmtInt(excedente);
+    if (elements.balanceTotal) elements.balanceTotal.textContent = fmtInt(saldoTotal);
 
     // Multipliers (Based on Total Cost as seen in Case 3)
-    if (elements.mult115) elements.mult115.textContent = `${(totalCost * 1.15).toFixed(0)}`;
-    if (elements.mult120) elements.mult120.textContent = `${(totalCost * 1.20).toFixed(0)}`;
-    if (elements.mult125) elements.mult125.textContent = `${(totalCost * 1.25).toFixed(0)}`;
+    if (elements.mult115) elements.mult115.textContent = fmtInt(totalCost * 1.15);
+    if (elements.mult120) elements.mult120.textContent = fmtInt(totalCost * 1.20);
+    if (elements.mult125) elements.mult125.textContent = fmtInt(totalCost * 1.25);
     
     // VARIACION MAX: (Saldo Total / 55) * Valor Token * 1.25
     // Saldo Total / 55 es igual a wholeTokens
-    if (elements.multMax) elements.multMax.textContent = `${(wholeTokens * solesPerToken * 1.25).toFixed(1)}`;
+    if (elements.multMax) elements.multMax.textContent = fmtV(wholeTokens * solesPerToken * 1.25);
 
     localStorage.setItem('goldRate', goldRateBuy);
     localStorage.setItem('goldRateSell', goldRateSell);

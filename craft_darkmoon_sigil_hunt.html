@@ -57,7 +57,45 @@
                             <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_inscriptions_darkmoondeck_bloom.jpg" alt="Darkmoon Deck: Hunt" class="mat-icon">
                             <label for="mat-darkmoon-hunt">Darkmoon Deck: Hunt (x1)</label>
                         </div>
-                        <input type="number" id="mat-darkmoon-hunt" class="mat-input" data-qty="1" value="0" step="0.1">
+                        <input type="number" id="mat-darkmoon-hunt" class="mat-input" data-qty="1" value="0" step="0.1" readonly style="background: rgba(0,0,0,0.3); border-style: dashed; color: var(--text-muted); cursor: not-allowed;" title="Suma automática de las 8 cartas">
+                        
+                        <div style="margin-top: 1rem; padding-left: 1rem; border-left: 2px solid rgba(255,204,0,0.3);">
+                            <p style="font-size: 0.75rem; color: var(--primary-gold); margin-bottom: 0.8rem; font-weight: 600;">INGRESA EL PRECIO DE CADA CARTA</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <label style="font-size: 0.75rem; width: 40px;">1</label>
+                                    <input type="number" class="hunt-card-input" id="card-ace" value="0" step="0.1" style="padding: 0.4rem; font-size: 0.85rem;">
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <label style="font-size: 0.75rem; width: 40px;">2</label>
+                                    <input type="number" class="hunt-card-input" id="card-two" value="0" step="0.1" style="padding: 0.4rem; font-size: 0.85rem;">
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <label style="font-size: 0.75rem; width: 40px;">3</label>
+                                    <input type="number" class="hunt-card-input" id="card-three" value="0" step="0.1" style="padding: 0.4rem; font-size: 0.85rem;">
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <label style="font-size: 0.75rem; width: 40px;">4</label>
+                                    <input type="number" class="hunt-card-input" id="card-four" value="0" step="0.1" style="padding: 0.4rem; font-size: 0.85rem;">
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <label style="font-size: 0.75rem; width: 40px;">5</label>
+                                    <input type="number" class="hunt-card-input" id="card-five" value="0" step="0.1" style="padding: 0.4rem; font-size: 0.85rem;">
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <label style="font-size: 0.75rem; width: 40px;">6</label>
+                                    <input type="number" class="hunt-card-input" id="card-six" value="0" step="0.1" style="padding: 0.4rem; font-size: 0.85rem;">
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <label style="font-size: 0.75rem; width: 40px;">7</label>
+                                    <input type="number" class="hunt-card-input" id="card-seven" value="0" step="0.1" style="padding: 0.4rem; font-size: 0.85rem;">
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <label style="font-size: 0.75rem; width: 40px;">8</label>
+                                    <input type="number" class="hunt-card-input" id="card-eight" value="0" step="0.1" style="padding: 0.4rem; font-size: 0.85rem;">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="input-group">
@@ -178,5 +216,42 @@
 
     <!-- Reutilizamos todo el motor de cálculos dinámico -->
     <script src="crafts.js"></script>
+
+    <!-- Script específico para sumar las 8 cartas del Darkmoon Deck -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const deckInput = document.getElementById('mat-darkmoon-hunt');
+            const cardInputs = document.querySelectorAll('.hunt-card-input');
+            
+            function calcDeckSum() {
+                let sum = 0;
+                cardInputs.forEach(input => {
+                    sum += parseFloat(input.value) || 0;
+                });
+                deckInput.value = sum;
+                // Dispara el evento de input para que crafts.js actualice toda la UI de la calculadora
+                deckInput.dispatchEvent(new Event('input'));
+            }
+
+            // Carga los valores guardados de cada carta e inicia los listeners
+            cardInputs.forEach(input => {
+                const saved = localStorage.getItem(`hunt_card_${input.id}`);
+                if (saved !== null) {
+                    input.value = saved;
+                }
+                
+                input.addEventListener('input', () => {
+                    localStorage.setItem(`hunt_card_${input.id}`, input.value);
+                    calcDeckSum();
+                });
+            });
+
+            // Al cargar, calcula la suma inicial después de un pequeñísimo delay 
+            // para asegurar que crafts.js terminó de iniciar
+            if (cardInputs.length > 0) {
+                setTimeout(calcDeckSum, 50);
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,3 +1,17 @@
+// Helper formatters
+const fmt = (num) => num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmtInt = (num) => num.toLocaleString('en-US');
+
+const recipeId = window.location.pathname.split('/').pop().replace('.html', '') || 'unknown_recipe';
+
+let currentCalculation = {
+    quantity: 0,
+    obtained: 0,
+    investment: 0,
+    savings: 0,
+    profit: 0
+};
+
 const craftElements = {
     quantityInput: document.getElementById('craft-quantity'),
     obtainedQuantityInput: document.getElementById('obtained-quantity'),
@@ -83,9 +97,7 @@ function updateCraftUI() {
     // Profit
     const netProfit = netRevenue - totalInvestment;
 
-    // Helper formatter
-    const fmt = (num) => num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    const fmtInt = (num) => num.toLocaleString('en-US');
+    // Formatters are now global
 
     // Update UI
     if (craftElements.costPerUnit) craftElements.costPerUnit.textContent = fmt(unitCost);
@@ -118,6 +130,15 @@ function updateCraftUI() {
     localStorage.setItem('craftQuantity', quantity);
     if (manualObtained) localStorage.setItem('craftObtained', obtainedQuantity);
     localStorage.setItem('craftSellPrice', sellPrice);
+
+    // Save calculation state for ledger
+    currentCalculation = {
+        quantity: quantity,
+        obtained: obtainedQuantity,
+        investment: totalInvestment,
+        savings: savingsTotal,
+        profit: netProfit
+    };
 }
 
 // Event Listeners
@@ -173,4 +194,161 @@ function initCrafts() {
 
 initCrafts();
 
+// --- LEDGER / HISTORY MODULE ---
 
+const ledgerElements = {
+    btnSave: document.getElementById('btn-save-record'),
+    btnExport: document.getElementById('btn-export-json'),
+    btnImport: document.getElementById('btn-import-json'),
+    tbody: document.getElementById('history-tbody'),
+    totalCrafts: document.getElementById('total-history-crafts'),
+    totalObtained: document.getElementById('total-history-obtained'),
+    totalInvestment: document.getElementById('total-history-investment'),
+    totalSavings: document.getElementById('total-history-savings'),
+    totalProfit: document.getElementById('total-history-profit')
+};
+
+function loadHistory() {
+    try {
+        const stored = localStorage.getItem(`history_${recipeId}`);
+        return stored ? JSON.parse(stored) : [];
+    } catch {
+        return [];
+    }
+}
+
+function saveHistory(data) {
+    localStorage.setItem(`history_${recipeId}`, JSON.stringify(data));
+}
+
+function renderHistory() {
+    if (!ledgerElements.tbody) return;
+    
+    const history = loadHistory();
+    ledgerElements.tbody.innerHTML = '';
+    
+    let sumCrafts = 0;
+    let sumObtained = 0;
+    let sumInvestment = 0;
+    let sumSavings = 0;
+    let sumProfit = 0;
+    
+    history.forEach(record => {
+        const obs = record.obtained || record.quantity;
+        sumCrafts += record.quantity;
+        sumObtained += obs;
+        sumInvestment += record.investment;
+        sumSavings += record.savings;
+        sumProfit += record.profit;
+        
+        const tr = document.createElement('tr');
+        
+        // Colores para ganancia/pérdida
+        let profitColor = record.profit > 0 ? 'var(--accent-blue)' : (record.profit < 0 ? 'rgba(255, 100, 100, 0.9)' : 'var(--text-main)');
+        
+        // Retro-compatibilidad para registros viejos sin 'obtained'
+        const obsDisplay = record.obtained || record.quantity;
+
+        tr.innerHTML = `
+            <td style="color: var(--text-muted);">${record.date}</td>
+            <td style="text-align: right; color: var(--text-muted); font-weight: bold;">${fmtInt(record.quantity)}</td>
+            <td style="text-align: right; color: var(--accent-blue); font-weight: bold;">${fmtInt(obsDisplay)}</td>
+            <td style="text-align: right; color: var(--text-main);">${fmt(record.investment)}</td>
+            <td style="text-align: right; color: var(--primary-gold);">${fmt(record.savings)}</td>
+            <td style="text-align: right; color: ${profitColor}; font-weight: bold;">${fmt(record.profit)}</td>
+            <td style="text-align: right;">
+                <button class="delete-record-btn" data-id="${record.id}" style="background: none; border: none; color: rgba(255,100,100,0.8); cursor: pointer; font-size: 1rem;" title="Eliminar Registro">❌</button>
+            </td>
+        `;
+        ledgerElements.tbody.appendChild(tr);
+    });
+    
+    // Asignar eventos de eliminación
+    document.querySelectorAll('.delete-record-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const idToRemove = parseInt(e.target.dataset.id);
+            const newHistory = history.filter(r => r.id !== idToRemove);
+            saveHistory(newHistory);
+            renderHistory();
+        });
+    });
+    
+    // Actualizar totales en el footer
+    let footerProfitColor = sumProfit > 0 ? 'var(--accent-blue)' : (sumProfit < 0 ? 'rgba(255, 100, 100, 0.9)' : 'var(--text-main)');
+    
+    ledgerElements.totalCrafts.textContent = fmtInt(sumCrafts);
+    if (ledgerElements.totalObtained) ledgerElements.totalObtained.textContent = fmtInt(sumObtained);
+    ledgerElements.totalInvestment.textContent = fmt(sumInvestment);
+    ledgerElements.totalSavings.textContent = fmt(sumSavings);
+    ledgerElements.totalProfit.textContent = fmt(sumProfit);
+    ledgerElements.totalProfit.style.color = footerProfitColor;
+}
+
+// Iniciar History Events
+if (ledgerElements.btnSave) {
+    ledgerElements.btnSave.addEventListener('click', () => {
+        const history = loadHistory();
+        const now = new Date();
+        const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        
+        history.push({
+            id: Date.now(),
+            date: dateStr,
+            quantity: currentCalculation.quantity,
+            obtained: currentCalculation.obtained,
+            investment: currentCalculation.investment,
+            savings: currentCalculation.savings,
+            profit: currentCalculation.profit
+        });
+        
+        saveHistory(history);
+        renderHistory();
+    });
+}
+
+if (ledgerElements.btnExport) {
+    ledgerElements.btnExport.addEventListener('click', () => {
+        const history = loadHistory();
+        if (history.length === 0) {
+            alert('No hay registros guardados para exportar.');
+            return;
+        }
+        const blob = new Blob([JSON.stringify(history, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${recipeId}_historial.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    });
+}
+
+if (ledgerElements.btnImport) {
+    ledgerElements.btnImport.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const importedData = JSON.parse(event.target.result);
+                if (Array.isArray(importedData)) {
+                    saveHistory(importedData);
+                    renderHistory();
+                    alert('Historial importado correctamente.');
+                } else {
+                    alert('Error: El archivo JSON no tiene el formato correcto.');
+                }
+            } catch (err) {
+                alert('Error al leer el archivo JSON.');
+            }
+            e.target.value = ''; // Limpiar el input file
+        };
+        reader.readAsText(file);
+    });
+}
+
+// Renderizar al inicio
+window.addEventListener('DOMContentLoaded', () => {
+    renderHistory();
+});

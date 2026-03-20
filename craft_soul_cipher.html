@@ -200,6 +200,49 @@
                         </tr>
                     </table>
                 </div>
+                <!-- Historial y Backups -->
+                <div class="card" style="grid-column: 1 / -1; margin-top: 2rem;">
+                    <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>HISTORIAL DE PRODUCCIÓN</span>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button id="btn-export-json" class="action-btn" style="background: rgba(255, 204, 0, 0.1); color: var(--primary-gold); font-size: 0.75rem; border-radius: 4px; border: 1px solid rgba(255, 204, 0, 0.3); padding: 0.4rem 0.8rem; cursor: pointer;">⬇ Exportar JSON</button>
+                            <label for="btn-import-json" class="action-btn" style="background: rgba(0, 204, 255, 0.1); color: var(--accent-blue); font-size: 0.75rem; border-radius: 4px; border: 1px solid rgba(0, 204, 255, 0.3); padding: 0.4rem 0.8rem; cursor: pointer; margin: 0;">⬆ Importar JSON</label>
+                            <input type="file" id="btn-import-json" accept=".json" style="display: none;">
+                        </div>
+                    </div>
+                    
+                    <button id="btn-save-record" class="buy-btn" style="margin-bottom: 1rem; padding: 0.8rem; font-size: 0.9rem; margin-top: 1rem; width: 100%;">+ GUARDAR REGISTRO ACTUAL</button>
+
+                    <div style="overflow-x: auto;">
+                        <table class="data-table" id="history-table" style="font-size: 0.85rem;">
+                            <thead>
+                                <tr>
+                                    <th style="color: var(--text-muted); padding-bottom: 0.5rem; text-align: left;">Fecha</th>
+                                    <th style="color: var(--text-muted); padding-bottom: 0.5rem; text-align: right;" title="Cantidad de crafteos intentados">Intentos</th>
+                                    <th style="color: var(--text-muted); padding-bottom: 0.5rem; text-align: right;" title="Cantidad real obtenida (multicraft)">Obtenidos</th>
+                                    <th style="color: var(--text-muted); padding-bottom: 0.5rem; text-align: right;">Inversión</th>
+                                    <th style="color: var(--text-muted); padding-bottom: 0.5rem; text-align: right;">Ahorro Mat.</th>
+                                    <th style="color: var(--text-muted); padding-bottom: 0.5rem; text-align: right;">Ganancia Neta</th>
+                                    <th style="padding-bottom: 0.5rem;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-tbody">
+                                <!-- Filas dinámicas -->
+                            </tbody>
+                            <tfoot style="border-top: 2px solid rgba(255,255,255,0.1);">
+                                <tr>
+                                    <td style="color: var(--primary-gold); padding-top: 1rem; font-weight: bold; text-align: left;">TOTALES</td>
+                                    <td id="total-history-crafts" style="padding-top: 1rem; text-align: right; color: var(--text-muted); font-weight: bold;">0</td>
+                                    <td id="total-history-obtained" style="padding-top: 1rem; text-align: right; color: var(--accent-blue); font-weight: bold;">0</td>
+                                    <td id="total-history-investment" style="padding-top: 1rem; text-align: right; color: var(--text-main); font-weight: bold;">0</td>
+                                    <td id="total-history-savings" style="padding-top: 1rem; text-align: right; color: var(--primary-gold); font-weight: bold;">0</td>
+                                    <td id="total-history-profit" style="padding-top: 1rem; text-align: right; font-weight: bold; font-size: 1.1rem;">0</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
             </section>
         </main>
 

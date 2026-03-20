@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WoW Token Manager | Sindorei Armor Banding</title>
+    <title>WoW Token Manager | Mark of the Worldsoul</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,26 +46,50 @@
                     
                     <div class="input-group">
                         <div class="mat-label-wrapper">
-                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_thematicfoozles_moteofpurelight_gold.jpg" alt="Mote of Light" class="mat-icon">
-                            <label for="mat-mote-light">Mote of Light (x2)</label>
+                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_thematicfoozles_moteofprimalenergy_darkorange.jpg" alt="Mote of Primal Energy" class="mat-icon">
+                            <label for="mat-mote-primal">Mote Primal Energy (x5)</label>
                         </div>
-                        <input type="number" id="mat-mote-light" class="mat-input" data-qty="2" value="0" step="0.1">
+                        <input type="number" id="mat-mote-primal" class="mat-input" data-qty="5" value="0" step="0.1">
                     </div>
                     
                     <div class="input-group">
                         <div class="mat-label-wrapper">
-                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_13.jpg" alt="Fantastic Fur" class="mat-icon">
-                            <label for="mat-fantastic-fur">Fantastic Fur (x1)</label>
+                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_skinning_stormchargedleather1.jpg" alt="Majestic Hide" class="mat-icon">
+                            <label for="mat-majestic">Majestic Hide (x1)</label>
                         </div>
-                        <input type="number" id="mat-fantastic-fur" class="mat-input" data-qty="1" value="0" step="0.1">
+                        <input type="number" id="mat-majestic" class="mat-input" data-qty="1" value="0" step="0.1">
                     </div>
                     
                     <div class="input-group">
                         <div class="mat-label-wrapper">
-                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_skinning_pristinescale_violet.jpg" alt="Void-Tempered Plating" class="mat-icon">
-                            <label for="mat-void-plating">Void-Tempered Plating (x1)</label>
+                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_herb_liferoot_stem.jpg" alt="Petrified Root" class="mat-icon">
+                            <label for="mat-petrified">Petrified Root (x2)</label>
                         </div>
-                        <input type="number" id="mat-void-plating" class="mat-input" data-qty="1" value="0" step="0.1">
+                        <input type="number" id="mat-petrified" class="mat-input" data-qty="2" value="0" step="0.1">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="mat-label-wrapper">
+                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_enchanting_enchantingdust_green.jpg" alt="Eversinging Dust" class="mat-icon">
+                            <label for="mat-eversinging-dust">Eversinging Dust (x15)</label>
+                        </div>
+                        <input type="number" id="mat-eversinging-dust" class="mat-input" data-qty="15" value="0" step="0.1">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="mat-label-wrapper">
+                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_enchanting_enchantingshard_blue.jpg" alt="Radiant Shard" class="mat-icon">
+                            <label for="mat-radiant-shard">Radiant Shard (x10)</label>
+                        </div>
+                        <input type="number" id="mat-radiant-shard" class="mat-input" data-qty="10" value="0" step="0.1">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="mat-label-wrapper">
+                            <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_enchanting_enchantingcrystal_orange.jpg" alt="Dawn Crystal" class="mat-icon">
+                            <label for="mat-dawn-crystal">Dawn Crystal (x2)</label>
+                        </div>
+                        <input type="number" id="mat-dawn-crystal" class="mat-input" data-qty="2" value="0" step="0.1">
                     </div>
                 </div>
             </aside>
@@ -94,26 +118,50 @@
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
                             <div class="input-group" style="margin-bottom: 0;">
                                 <div class="mat-label-wrapper" style="gap: 0.5rem; margin-bottom: 0.2rem;">
-                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_thematicfoozles_moteofpurelight_gold.jpg" alt="Mote Light" class="mat-icon" style="width: 20px; height: 20px;">
-                                    <label for="saved-mote-light" style="font-size: 0.75rem;">Mote Light</label>
+                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_thematicfoozles_moteofprimalenergy_darkorange.jpg" alt="Mote Primal" class="mat-icon" style="width: 20px; height: 20px;">
+                                    <label for="saved-mote-primal" style="font-size: 0.75rem;">Mote Primal</label>
                                 </div>
-                                <input type="number" id="saved-mote-light" class="saved-mat-input" data-mat="mat-mote-light" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
+                                <input type="number" id="saved-mote-primal" class="saved-mat-input" data-mat="mat-mote-primal" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
                             </div>
                             
                             <div class="input-group" style="margin-bottom: 0;">
                                 <div class="mat-label-wrapper" style="gap: 0.5rem; margin-bottom: 0.2rem;">
-                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_13.jpg" alt="Fantastic Fur" class="mat-icon" style="width: 20px; height: 20px;">
-                                    <label for="saved-fantastic-fur" style="font-size: 0.75rem;">Fantastic Fur</label>
+                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_skinning_stormchargedleather1.jpg" alt="Majestic Hide" class="mat-icon" style="width: 20px; height: 20px;">
+                                    <label for="saved-majestic" style="font-size: 0.75rem;">Majestic Hide</label>
                                 </div>
-                                <input type="number" id="saved-fantastic-fur" class="saved-mat-input" data-mat="mat-fantastic-fur" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
+                                <input type="number" id="saved-majestic" class="saved-mat-input" data-mat="mat-majestic" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
                             </div>
                             
                             <div class="input-group" style="margin-bottom: 0;">
                                 <div class="mat-label-wrapper" style="gap: 0.5rem; margin-bottom: 0.2rem;">
-                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_skinning_pristinescale_violet.jpg" alt="Void-Tempered Plating" class="mat-icon" style="width: 20px; height: 20px;">
-                                    <label for="saved-void-plating" style="font-size: 0.75rem;">Void Plating</label>
+                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_herb_liferoot_stem.jpg" alt="Petrified Root" class="mat-icon" style="width: 20px; height: 20px;">
+                                    <label for="saved-petrified" style="font-size: 0.75rem;">Petrified Root</label>
                                 </div>
-                                <input type="number" id="saved-void-plating" class="saved-mat-input" data-mat="mat-void-plating" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
+                                <input type="number" id="saved-petrified" class="saved-mat-input" data-mat="mat-petrified" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
+                            </div>
+
+                            <div class="input-group" style="margin-bottom: 0;">
+                                <div class="mat-label-wrapper" style="gap: 0.5rem; margin-bottom: 0.2rem;">
+                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_enchanting_enchantingdust_green.jpg" alt="Eversinging Dust" class="mat-icon" style="width: 20px; height: 20px;">
+                                    <label for="saved-eversinging-dust" style="font-size: 0.75rem;">Eversinging Dust</label>
+                                </div>
+                                <input type="number" id="saved-eversinging-dust" class="saved-mat-input" data-mat="mat-eversinging-dust" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
+                            </div>
+
+                            <div class="input-group" style="margin-bottom: 0;">
+                                <div class="mat-label-wrapper" style="gap: 0.5rem; margin-bottom: 0.2rem;">
+                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_enchanting_enchantingshard_blue.jpg" alt="Radiant Shard" class="mat-icon" style="width: 20px; height: 20px;">
+                                    <label for="saved-radiant-shard" style="font-size: 0.75rem;">Radiant Shard</label>
+                                </div>
+                                <input type="number" id="saved-radiant-shard" class="saved-mat-input" data-mat="mat-radiant-shard" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
+                            </div>
+
+                            <div class="input-group" style="margin-bottom: 0;">
+                                <div class="mat-label-wrapper" style="gap: 0.5rem; margin-bottom: 0.2rem;">
+                                    <img src="https://wow.zamimg.com/images/wow/icons/large/inv_12_profession_enchanting_enchantingcrystal_orange.jpg" alt="Dawn Crystal" class="mat-icon" style="width: 20px; height: 20px;">
+                                    <label for="saved-dawn-crystal" style="font-size: 0.75rem;">Dawn Crystal</label>
+                                </div>
+                                <input type="number" id="saved-dawn-crystal" class="saved-mat-input" data-mat="mat-dawn-crystal" value="0" min="0" step="1" style="padding: 0.5rem; font-size: 0.9rem;">
                             </div>
                         </div>
                     </div>

@@ -76,7 +76,7 @@ function updateCraftUI() {
     // Calculate Resourcefulness Savings
     let savingsTotal = 0;
     craftElements.savedMatInputs.forEach(input => {
-        const savedQty = parseInt(input.value) || 0;
+        const savedQty = parseFloat(input.value) || 0; // Use parseFloat instead of parseInt
         const linkedMatId = input.dataset.mat;
         const matPrice = currentMatPrices.get(linkedMatId) || 0;
         
@@ -285,6 +285,7 @@ function renderHistory() {
 }
 
 // Iniciar History Events
+// Iniciar History Events
 if (ledgerElements.btnSave) {
     ledgerElements.btnSave.addEventListener('click', () => {
         const history = loadHistory();
@@ -305,6 +306,133 @@ if (ledgerElements.btnSave) {
         renderHistory();
     });
 }
+
+// --- SIMULATION MODULE ---
+
+const simElements = {
+    btnSimulate: document.getElementById('btn-simulate'),
+    mcInput: document.getElementById('stat-multicraft'),
+    resInput: document.getElementById('stat-resourcefulness'),
+    ingInput: document.getElementById('stat-ingenuity'),
+    spdInput: document.getElementById('stat-speed'),
+    resultsContainer: document.getElementById('sim-results'),
+    // Result fields
+    resObtained: document.getElementById('sim-res-obtained'),
+    resSavings: document.getElementById('sim-res-savings'),
+    resProfit: document.getElementById('sim-res-profit'),
+    resAvgProfit: document.getElementById('sim-res-avg-profit'),
+    resIngenuity: document.getElementById('sim-res-ingenuity')
+};
+
+function runSimulation() {
+    const quantity = parseInt(craftElements.quantityInput.value) || 1;
+    const mcChance = parseFloat(simElements.mcInput?.value || 0) / 100;
+    const resChance = parseFloat(simElements.resInput?.value || 0) / 100;
+    const ingChance = parseFloat(simElements.ingInput?.value || 0) / 100;
+    const sellPrice = parseFloat(craftElements.sellPriceInput.value) || 0;
+    
+    // Calculate unit cost and collect material data
+    let unitCost = 0;
+    const matData = [];
+    craftElements.matInputs.forEach(input => {
+        const price = parseFloat(input.value) || 0;
+        const qty = parseInt(input.dataset.qty) || 0;
+        unitCost += (price * qty);
+        matData.push({ 
+            id: input.id, 
+            price, 
+            qty 
+        });
+    });
+
+    let totalObtained = 0;
+    let totalSavedGold = 0;
+    let ingenuityProcs = 0;
+    let savedMatsMap = {}; // Tracks specific material quantities saved by ID
+
+    // Simulation Loop (Monte Carlo)
+    for (let i = 0; i < quantity; i++) {
+        // Base yield
+        let yieldThisCraft = 1;
+
+        // Multicraft Proc
+        if (mcChance > 0 && Math.random() < mcChance) {
+            const bonus = 1 + (Math.random() * 1.5);
+            yieldThisCraft += bonus;
+        }
+        totalObtained += yieldThisCraft;
+
+        // Resourcefulness Proc
+        if (resChance > 0 && Math.random() < resChance) {
+            // In WoW, Resourcefulness saves approx 30% of ALL materials in the craft on average
+            matData.forEach(mat => {
+                const amountSaved = mat.qty * 0.3;
+                savedMatsMap[mat.id] = (savedMatsMap[mat.id] || 0) + amountSaved;
+                totalSavedGold += (amountSaved * mat.price);
+            });
+        }
+
+        // Ingenuity Proc (Concentration Refund)
+        if (ingChance > 0 && Math.random() < ingChance) {
+            ingenuityProcs++;
+        }
+    }
+
+    const totalInvestment = unitCost * quantity;
+    const grossRevenue = totalObtained * sellPrice;
+    const ahCut = grossRevenue * 0.05;
+    const netRevenue = grossRevenue - ahCut + totalSavedGold;
+    const netProfit = netRevenue - totalInvestment;
+
+    // Update Sidebar results
+    if (simElements.resultsContainer) {
+        simElements.resultsContainer.style.display = 'block';
+        if (simElements.resObtained) simElements.resObtained.textContent = Math.round(totalObtained);
+        if (simElements.resSavings) simElements.resSavings.textContent = fmt(totalSavedGold);
+        if (simElements.resProfit) {
+            simElements.resProfit.textContent = fmt(netProfit);
+            simElements.resProfit.style.color = netProfit > 0 ? 'var(--accent-blue)' : 'rgba(255, 100, 100, 0.9)';
+        }
+        if (simElements.resAvgProfit) simElements.resAvgProfit.textContent = fmt(netProfit / quantity);
+        if (simElements.resIngenuity) simElements.resIngenuity.textContent = ingenuityProcs;
+        
+        // Populate main section inputs with simulated data
+        // 1. Update Obtained Quantity
+        if (craftElements.obtainedQuantityInput) {
+            craftElements.obtainedQuantityInput.value = Math.round(totalObtained);
+        }
+
+        // 2. Update Saved Materials fields
+        Object.entries(savedMatsMap).forEach(([matId, amount]) => {
+            const savedInput = document.querySelector(`.saved-mat-input[data-mat="${matId}"]`);
+            if (savedInput) {
+                savedInput.value = amount.toFixed(1);
+            }
+        });
+
+        // Trigger a global calculation to refresh everything else
+        updateCraftUI();
+        
+        // Scroll to results summary in sidebar
+        simElements.resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+
+if (simElements.btnSimulate) {
+    simElements.btnSimulate.addEventListener('click', runSimulation);
+}
+
+// Persist Stats
+[simElements.mcInput, simElements.resInput, simElements.ingInput, simElements.spdInput].forEach(input => {
+    if (!input) return;
+    const key = `stat_${input.id}_${recipeId}`;
+    const saved = localStorage.getItem(key);
+    if (saved) input.value = saved;
+
+    input.addEventListener('input', () => {
+        localStorage.setItem(key, input.value);
+    });
+});
 
 if (ledgerElements.btnExport) {
     ledgerElements.btnExport.addEventListener('click', () => {

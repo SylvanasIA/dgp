@@ -42,6 +42,52 @@
                 </div>
 
                 <div class="card">
+                    <div class="card-title">ESTADÍSTICAS DE PROFESIÓN</div>
+                    <div class="stats-grid">
+                        <div class="stat-input-group">
+                            <label for="stat-resourcefulness">RESOURCEFULNESS (%)</label>
+                            <input type="number" id="stat-resourcefulness" value="0" min="0" max="100" step="0.5">
+                        </div>
+                        <div class="stat-input-group" title="Chance de recuperar la Concentración gastada">
+                            <label for="stat-ingenuity">INGENUITY (%)</label>
+                            <input type="number" id="stat-ingenuity" value="0" min="0" max="100" step="0.5">
+                        </div>
+                        <div class="stat-input-group">
+                            <label for="stat-speed">CRAFT. SPEED (%)</label>
+                            <input type="number" id="stat-speed" value="0" min="0" max="100" step="0.5">
+                        </div>
+                    </div>
+                    
+                    <div class="sim-container">
+                        <button id="btn-simulate" class="sim-btn">Simular Producción</button>
+                    </div>
+
+                    <div id="sim-results" class="sim-results">
+                        <div class="card-title" style="margin-bottom: 0.8rem; color: var(--accent-blue);">RESULTADOS SIMULADOS</div>
+                        <div class="sim-result-row">
+                            <span class="sim-result-label">Items Obtenidos (Est.):</span>
+                            <span id="sim-res-obtained" class="sim-result-value">0</span>
+                        </div>
+                        <div class="sim-result-row">
+                            <span class="sim-result-label">Ahorro Mat. (Est.):</span>
+                            <span id="sim-res-savings" class="sim-result-value">0.00</span>
+                        </div>
+                        <div class="sim-result-row">
+                            <span class="sim-result-label">Concentración Refund (Est.):</span>
+                            <span id="sim-res-ingenuity" class="sim-result-value" style="color: var(--primary-gold);">0</span>
+                        </div>
+                        <div class="sim-result-row">
+                            <span class="sim-result-label">Profit Total (Est.):</span>
+                            <span id="sim-res-profit" class="sim-result-value profit">0.00</span>
+                        </div>
+                        <div class="sim-result-row" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05);">
+                            <span class="sim-result-label">Profit / Craft:</span>
+                            <span id="sim-res-avg-profit" class="sim-result-value">0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
                     <div class="card-title">COSTO DE MATERIALES (Oro por unidad)</div>
                     
                     <div class="input-group">

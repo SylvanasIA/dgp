@@ -197,3 +197,105 @@ input:focus { border-color: var(--primary-gold); }
         grid-template-columns: 1fr;
     }
 }
+
+/* Profession Stats Section */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.stat-input-group {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-input-group label {
+    margin-bottom: 0.2rem;
+    color: var(--accent-blue);
+    font-size: 0.65rem;
+    font-weight: 700;
+}
+
+.stat-input-group input {
+    font-size: 1rem;
+    padding: 0.4rem;
+}
+
+/* Simulation UI */
+.sim-container {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sim-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #00ccff 0%, #0066ff 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 204, 255, 0.3);
+    font-family: 'Inter', sans-serif;
+}
+
+.sim-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 204, 255, 0.4);
+    filter: brightness(1.1);
+}
+
+.sim-btn:active {
+    transform: translateY(0);
+}
+
+.sim-results {
+    margin-top: 1.5rem;
+    background: rgba(0, 204, 255, 0.05);
+    border: 1px solid rgba(0, 204, 255, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: none; /* Shown via JS */
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.sim-result-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+}
+
+.sim-result-row:last-child { margin-bottom: 0; }
+.sim-result-label { color: var(--text-muted); }
+.sim-result-value { font-weight: 700; color: var(--text-main); }
+.sim-result-value.profit { color: var(--accent-blue); font-size: 1.1rem; }
+
+.buy-btn {
+    background: var(--primary-gold);
+    color: var(--dark-bg);
+    border: none;
+    border-radius: 6px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.buy-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
